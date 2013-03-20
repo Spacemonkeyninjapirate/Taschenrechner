@@ -13,29 +13,35 @@ void main()
     while (true)
     {
         cin.getline(eingabe, EINGABEBUFFER);
-        int i;
 
         if(strncmp(eingabe, "quit", 4) == 0 || strncmp(eingabe, "exit", 4) == 0)
         {
             break;
         }
 
-            while(*rest != 0)
+        while(*rest != 0)
+        {
+            if(isdigit(*rest))
             {
-                if(isdigit(*rest))
-                {
+                int i;
+
                 for(i = 0; isdigit(rest[i]) != false; i++);
-                atol(rest);
+
+                int zahl = atol(rest);
+
                 rest = &rest[i];
-                }
-                else if (*rest == '+' || *rest == '-' || *rest == '/' || *rest == '*')
-                {
-                }
-                else
-                {
-                rest = &rest[1];
-                }
+
+                cout << zahl << endl;
             }
+            else if (*rest == '+' || *rest == '-' || *rest == '/' || *rest == '*')
+            {
+                rest = &rest[1];
+            }
+            else
+            {
+                rest = &rest[1];
+            }
+        }
     }
 
     delete[] eingabe;
