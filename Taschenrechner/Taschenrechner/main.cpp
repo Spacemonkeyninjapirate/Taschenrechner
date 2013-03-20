@@ -1,17 +1,22 @@
 #include <iostream>
 #include <math.h>
-#define Zahl 100
+
+#define EINGABEBUFFER 100
 
 using namespace std;
 
 void main()
 {
-    bool vergleich = false;
-    char *platzhalter = new char [Zahl]; 
-    while (vergleich != true)
+    bool soll_beenden = false;
+
+    char *eingabe = new char [EINGABEBUFFER];
+
+    while (soll_beenden != true)
     {
-        cin.getline(platzhalter, Zahl);
-        vergleich = (strncmp(platzhalter,"quit",4) == 0 ||strncmp(platzhalter,"exit",4) == 0 );
+        cin.getline(eingabe, EINGABEBUFFER);
+
+        soll_beenden = (strncmp(eingabe, "quit", 4) == 0 || strncmp(eingabe, "exit", 4) == 0);
     }
-    delete[] platzhalter;
+
+    delete[] eingabe;
 };
