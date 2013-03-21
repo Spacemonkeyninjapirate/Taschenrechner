@@ -21,7 +21,7 @@ struct token
 void main()
 {
     char *eingabe = new char [EINGABEBUFFER];
-    char *rest = eingabe;
+
 
     while (true)
     {
@@ -32,7 +32,8 @@ void main()
             break;
         }
 
-        list<token*> tokens;
+        list<token*> tokens = list<token*>();
+        char *rest = eingabe;
 
         while(*rest != 0)
         {
@@ -47,7 +48,18 @@ void main()
                 gefunden->wert = atol(rest);
                 gefunden->typ = ZAHL;
 
-                tokens.push_back(gefunden);
+                if(tokens.size() == 0 || tokens.back()->typ != ZAHL)
+                {
+                    tokens.push_back(gefunden);
+                }
+                else
+                {
+                    cout << "Syntaxfehler\t Fehler bei " << rest << endl;
+
+                    delete gefunden;
+
+                    break;
+                }
 
                 rest = &rest[i];
             }
@@ -58,7 +70,18 @@ void main()
                 gefunden->wert = *rest;
                 gefunden->typ = OPERATOR;
 
-                tokens.push_back(gefunden);
+                if(tokens.size() == 0 || tokens.back()->typ != OPERATOR)
+                {
+                    tokens.push_back(gefunden);
+                }
+                else
+                {
+                    cerr << "Syntaxfehler\t Fehler bei "<< rest << endl;
+
+                    delete gefunden;
+
+                    break;
+                }
 
                 rest = &rest[1];
             }
