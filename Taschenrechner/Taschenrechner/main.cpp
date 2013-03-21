@@ -47,12 +47,19 @@ void main()
                 gefunden->wert = atol(rest);
                 gefunden->typ = ZAHL;
 
-                rest = &rest[i];
-
                 tokens.push_back(gefunden);
+
+                rest = &rest[i];
             }
             else if (*rest == '+' || *rest == '-' || *rest == '/' || *rest == '*')
             {
+                token *gefunden = new token;
+
+                gefunden->wert = *rest;
+                gefunden->typ = OPERATOR;
+
+                tokens.push_back(gefunden);
+
                 rest = &rest[1];
             }
             else
