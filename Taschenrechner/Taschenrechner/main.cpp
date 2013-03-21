@@ -73,7 +73,7 @@ void main()
             switch ((*i)->typ)
             {
             case ZAHL:
-                cout << "ZAHL\t";
+                cout << "ZAHL\t\t";
                 cout << (*i)->wert << endl;
                 break;
                 
