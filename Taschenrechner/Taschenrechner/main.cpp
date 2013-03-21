@@ -91,6 +91,18 @@ void main()
             }
         }
 
+        if(tokens.size() != 0 && (tokens.front()->typ == OPERATOR || tokens.back()->typ == OPERATOR))
+        {
+            cerr << "Syntaxfehler:\n Term beginnt oder endet mit einem Operator"<< endl;
+
+            for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+            {
+                delete *i;
+            }
+
+            continue;
+        }
+
         for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
             switch ((*i)->typ)
