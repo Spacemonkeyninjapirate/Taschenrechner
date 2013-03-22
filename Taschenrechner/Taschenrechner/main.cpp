@@ -108,6 +108,34 @@ void main()
 
         for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
+
+            if((*i)->typ == OPERATOR && ((*i)->wert == '*' || (*i)->wert == '/'))
+            {
+                list<token*>::iterator x = i, y = i;
+                --x;
+                ++y;
+                if((*i)->wert == '*')
+                {
+                    ergebnis = (*x)->wert * (*y)->wert;
+                }
+                else if ((*i)->wert == '/')
+                {
+                    if ((*y)->wert == 0)
+                    {
+                        cout << "Division durch 0 nicht erlaubt" << endl;
+                        goto freigeben;
+                    }
+                    ergebnis = (*x)->wert / (*y)->wert;
+                }
+                tokens.erase(x);
+                tokens.erase(y);
+                (*i)->typ = ZAHL;
+                (*i)->wert = ergebnis;
+            }
+        }
+
+        for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+        {
             if ((*i)->typ == ZAHL)
             {
                switch (merken)
@@ -123,14 +151,6 @@ void main()
                    case '+':
                        ergebnis += (*i)->wert;
                        break;
-
-                   case '*':
-                       ergebnis *= (*i)->wert;
-                       break;
-
-                   case '/':
-                       ergebnis /= (*i)->wert;
-                       break;
                }
             }
             else
@@ -140,7 +160,7 @@ void main()
         }
 
         cout << ergebnis << endl;
-
+        freigeben:
         for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
             delete *i;
