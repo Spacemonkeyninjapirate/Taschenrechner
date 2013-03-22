@@ -27,7 +27,7 @@ void main()
     {
         cin.getline(eingabe, EINGABEBUFFER);
 
-        if(strncmp(eingabe, "quit", 4) == 0 || strncmp(eingabe, "exit", 4) == 0)
+        if (strncmp(eingabe, "quit", 4) == 0 || strncmp(eingabe, "exit", 4) == 0)
         {
             break;
         }
@@ -35,20 +35,20 @@ void main()
         list<token*> tokens = list<token*>();
         char *rest = eingabe;
 
-        while(*rest != 0)
+        while (*rest != 0)
         {
-            if(isdigit(*rest))
+            if (isdigit(*rest))
             {
                 int i;
 
-                for(i = 0; isdigit(rest[i]) != false; i++);
+                for (i = 0; isdigit(rest[i]) != false; i++);
 
                 token *gefunden = new token;
 
                 gefunden->wert = atol(rest);
                 gefunden->typ = ZAHL;
 
-                if(tokens.size() == 0 || tokens.back()->typ != ZAHL)
+                if (tokens.size() == 0 || tokens.back()->typ != ZAHL)
                 {
                     tokens.push_back(gefunden);
                 }
@@ -70,7 +70,7 @@ void main()
                 gefunden->wert = *rest;
                 gefunden->typ = OPERATOR;
 
-                if(tokens.size() == 0 || tokens.back()->typ != OPERATOR)
+                if (tokens.size() == 0 || tokens.back()->typ != OPERATOR)
                 {
                     tokens.push_back(gefunden);
                 }
@@ -91,11 +91,11 @@ void main()
             }
         }
 
-        if(tokens.size() != 0 && (tokens.front()->typ == OPERATOR || tokens.back()->typ == OPERATOR))
+        if (tokens.size() != 0 && (tokens.front()->typ == OPERATOR || tokens.back()->typ == OPERATOR))
         {
             cerr << "Syntaxfehler:\n Term beginnt oder endet mit einem Operator"<< endl;
 
-            for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+            for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
             {
                 delete *i;
             }
@@ -106,15 +106,17 @@ void main()
         long int ergebnis;
         long int merken = '=';
 
-        for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+        for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
 
-            if((*i)->typ == OPERATOR && ((*i)->wert == '*' || (*i)->wert == '/'))
+            if ((*i)->typ == OPERATOR && ((*i)->wert == '*' || (*i)->wert == '/'))
             {
                 list<token*>::iterator x = i, y = i;
+
                 --x;
                 ++y;
-                if((*i)->wert == '*')
+
+                if ((*i)->wert == '*')
                 {
                     ergebnis = (*x)->wert * (*y)->wert;
                 }
@@ -123,18 +125,22 @@ void main()
                     if ((*y)->wert == 0)
                     {
                         cout << "Division durch 0 nicht erlaubt" << endl;
+
                         goto freigeben;
                     }
+
                     ergebnis = (*x)->wert / (*y)->wert;
                 }
+
                 tokens.erase(x);
                 tokens.erase(y);
+
                 (*i)->typ = ZAHL;
                 (*i)->wert = ergebnis;
             }
         }
 
-        for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+        for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
             if ((*i)->typ == ZAHL)
             {
@@ -160,8 +166,9 @@ void main()
         }
 
         cout << ergebnis << endl;
-        freigeben:
-        for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+
+freigeben:
+        for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
             delete *i;
         }
