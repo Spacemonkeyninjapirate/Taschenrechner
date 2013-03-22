@@ -103,6 +103,44 @@ void main()
             continue;
         }
 
+        long int ergebnis;
+        long int merken = '=';
+
+        for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+        {
+            if ((*i)->typ == ZAHL)
+            {
+               switch (merken)
+               {
+                   case '=':
+                       ergebnis = (*i)->wert;
+                       break;
+
+                   case '-':
+                       ergebnis -= (*i)->wert;
+                       break;
+
+                   case '+':
+                       ergebnis += (*i)->wert;
+                       break;
+
+                   case '*':
+                       ergebnis *= (*i)->wert;
+                       break;
+
+                   case '/':
+                       ergebnis /= (*i)->wert;
+                       break;
+               }
+            }
+            else
+            {
+                merken = (*i)->wert;
+            }
+        }
+
+        cout << ergebnis << endl;
+
         for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
             delete *i;
