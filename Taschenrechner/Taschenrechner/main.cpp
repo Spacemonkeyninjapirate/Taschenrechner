@@ -105,24 +105,9 @@ void main()
 
         for(list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
-            switch ((*i)->typ)
-            {
-            case ZAHL:
-                cout << "ZAHL\t\t";
-                cout << (*i)->wert << endl;
-                break;
-                
-            case OPERATOR:
-                cout << "OPERATOR\t";
-                cout << static_cast<char>((*i)->wert) << endl;
-                break;
-
-            default:
-                break;
-            }
-
             delete *i;
         }
+
     }
 
     delete[] eingabe;
