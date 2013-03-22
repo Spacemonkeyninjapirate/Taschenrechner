@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include <list>
+#include <stdexcept>
 
 #define EINGABEBUFFER 100
 
@@ -18,10 +19,11 @@ struct token
     tokentyp typ;
 };
 
+long int taschenrechner(char *&rest, int level);
+
 void main()
 {
     char *eingabe = new char [EINGABEBUFFER];
-
 
     while (true)
     {
@@ -32,8 +34,24 @@ void main()
             break;
         }
 
-        list<token*> tokens = list<token*>();
         char *rest = eingabe;
+
+        try
+        {
+            long int ergebnis = taschenrechner(rest, 0);
+            cout << ergebnis << endl;
+        }
+        catch (runtime_error &e)
+        {
+        }
+    }
+
+    delete[] eingabe;
+};
+
+long int taschenrechner(char *&rest, int level)
+{
+        list<token*> tokens = list<token*>();
 
         while (*rest != 0)
         {
@@ -100,7 +118,7 @@ void main()
                 delete *i;
             }
 
-            continue;
+            throw runtime_error("");
         }
 
         long int ergebnis;
@@ -165,15 +183,11 @@ void main()
             }
         }
 
-        cout << ergebnis << endl;
-
 freigeben:
         for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
             delete *i;
         }
 
-    }
-
-    delete[] eingabe;
-};
+        return ergebnis;
+}
