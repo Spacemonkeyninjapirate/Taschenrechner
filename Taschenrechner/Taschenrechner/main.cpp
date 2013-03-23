@@ -94,7 +94,7 @@ long int taschenrechner(char *&rest, int level)
                 }
                 else
                 {
-                    cerr << "Syntaxfehler\t Fehler bei "<< rest << endl;
+                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
 
                     delete gefunden;
 
@@ -102,6 +102,37 @@ long int taschenrechner(char *&rest, int level)
                 }
 
                 rest = &rest[1];
+            }
+            else if (*rest == ')')
+            {
+                if (level == 0)
+                {
+                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;  
+
+                    throw runtime_error("");
+                }
+
+                rest = &rest[1];
+
+                break;
+            }
+            else if (*rest == '(')
+            {
+                if (tokens.size() != 0 && tokens.back()->typ == ZAHL)
+                {
+                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+
+                    throw runtime_error("");
+                }
+
+                rest = &rest[1];
+
+                token *klammer = new token;
+
+                klammer->wert = taschenrechner(rest, level + 1);
+                klammer->typ = ZAHL;
+
+                tokens.push_back(klammer);
             }
             else
             {
