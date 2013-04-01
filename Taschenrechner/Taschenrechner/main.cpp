@@ -1,7 +1,8 @@
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <list>
 #include <stdexcept>
+#include <string>
 
 #define EINGABEBUFFER 100
 
@@ -15,11 +16,15 @@ enum tokentyp
 
 struct token
 {
-    long int wert;
     tokentyp typ;
+    union
+    {
+        float wert;
+        char operation;
+    };
 };
 
-long int taschenrechner(char *&rest, int level);
+float taschenrechner(char *&rest, int level);
 
 void main()
 {
@@ -38,7 +43,7 @@ void main()
 
         try
         {
-            long int ergebnis = taschenrechner(rest, 0);
+            float ergebnis = taschenrechner(rest, 0);
             cout << ergebnis << endl;
         }
         catch (runtime_error &e)
@@ -49,7 +54,7 @@ void main()
     delete[] eingabe;
 };
 
-long int taschenrechner(char *&rest, int level)
+float taschenrechner(char *&rest, int level)
 {
         list<token*> tokens = list<token*>();
 
@@ -57,13 +62,11 @@ long int taschenrechner(char *&rest, int level)
         {
             if (isdigit(*rest))
             {
-                int i;
-
-                for (i = 0; isdigit(rest[i]) != false; i++);
+                size_t index;
 
                 token *gefunden = new token;
 
-                gefunden->wert = atol(rest);
+                gefunden->wert = stof(rest, &index);
                 gefunden->typ = ZAHL;
 
                 if (tokens.size() == 0 || tokens.back()->typ != ZAHL)
@@ -79,13 +82,13 @@ long int taschenrechner(char *&rest, int level)
                     break;
                 }
 
-                rest = &rest[i];
+                rest = &rest[index];
             }
             else if (*rest == '+' || *rest == '-' || *rest == '/' || *rest == '*')
             {
                 token *gefunden = new token;
 
-                gefunden->wert = *rest;
+                gefunden->operation = *rest;
                 gefunden->typ = OPERATOR;
 
                 if (tokens.size() == 0 || tokens.back()->typ != OPERATOR)
@@ -159,26 +162,25 @@ long int taschenrechner(char *&rest, int level)
             throw runtime_error("");
         }
 
-        long int ergebnis;
-        long int merken = '=';
+        float ergebnis;
+        char merken = '=';
 
         for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
-
-            if ((*i)->typ == OPERATOR && ((*i)->wert == '*' || (*i)->wert == '/'))
+            if ((*i)->typ == OPERATOR && ((*i)->operation == '*' || (*i)->operation == '/'))
             {
                 list<token*>::iterator x = i, y = i;
 
                 --x;
                 ++y;
 
-                if ((*i)->wert == '*')
+                if ((*i)->operation == '*')
                 {
                     ergebnis = (*x)->wert * (*y)->wert;
                 }
-                else if ((*i)->wert == '/')
+                else if ((*i)->operation == '/')
                 {
-                    if ((*y)->wert == 0)
+                    if ((*y)->wert == 0.0f)
                     {
                         cout << "Division durch 0 nicht erlaubt" << endl;
 
@@ -217,7 +219,7 @@ long int taschenrechner(char *&rest, int level)
             }
             else
             {
-                merken = (*i)->wert;
+                merken = (*i)->operation;
             }
         }
 
