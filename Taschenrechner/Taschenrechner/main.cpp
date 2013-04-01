@@ -140,6 +140,13 @@ long int taschenrechner(char *&rest, int level)
             }
         }
 
+        if (*rest == 0 && level != 0)
+        {
+            cerr << "Syntaxfehler\t Kein geschlossener Term" << endl;
+
+            throw runtime_error("");
+        }
+
         if (tokens.size() != 0 && (tokens.front()->typ == OPERATOR || tokens.back()->typ == OPERATOR))
         {
             cerr << "Syntaxfehler:\n Term beginnt oder endet mit einem Operator"<< endl;
