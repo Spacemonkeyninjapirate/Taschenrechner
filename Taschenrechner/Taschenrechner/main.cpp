@@ -140,7 +140,7 @@ long int taschenrechner(char *&rest, int level)
             }
         }
 
-        if (*rest == 0 && level != 0)
+        if (*rest == 0 && level != 0 && !(*(rest - 1) == ')' && level == 1))
         {
             cerr << "Syntaxfehler\t Kein geschlossener Term" << endl;
 
