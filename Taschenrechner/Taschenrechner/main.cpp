@@ -137,6 +137,24 @@ float taschenrechner(char *&rest, int level)
 
                 tokens.push_back(klammer);
             }
+            else if (strncmp(rest, "sqrt", 4) == 0)
+            {
+                if (tokens.size() != 0 && (tokens.back()->typ == ZAHL || tokens.back()->typ == OPERATOR && tokens.back()->operation == 'v'))
+                {
+                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+
+                    throw runtime_error("");
+                }
+
+                rest = &rest[4];
+
+                token *wurzel = new token;
+
+                wurzel->operation = 'v';
+                wurzel->typ = OPERATOR;
+
+                tokens.push_back(wurzel);
+            }
             else
             {
                 rest = &rest[1];
@@ -150,7 +168,7 @@ float taschenrechner(char *&rest, int level)
             throw runtime_error("");
         }
 
-        if (tokens.size() != 0 && (tokens.front()->typ == OPERATOR || tokens.back()->typ == OPERATOR))
+        if (tokens.size() != 0 && ((tokens.front()->typ == OPERATOR && tokens.front()->operation != 'v') || tokens.back()->typ == OPERATOR))
         {
             cerr << "Syntaxfehler:\n Term beginnt oder endet mit einem Operator"<< endl;
 
@@ -164,6 +182,23 @@ float taschenrechner(char *&rest, int level)
 
         float ergebnis;
         char merken = '=';
+
+        for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+        {
+            if ((*i)->typ == OPERATOR && ((*i)->operation == 'v'))
+            {
+                list<token*>::iterator x = i;
+
+                ++x;
+
+                (*i)->wert = sqrtf((*x)->wert);
+                (*i)->typ = ZAHL;
+
+                delete *x;
+
+                tokens.erase(x);
+            }
+        }
 
         for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
