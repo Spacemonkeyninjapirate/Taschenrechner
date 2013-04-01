@@ -225,6 +225,9 @@ float taschenrechner(char *&rest, int level)
                     ergebnis = (*x)->wert / (*y)->wert;
                 }
 
+                delete *x;
+                delete *y;
+
                 tokens.erase(x);
                 tokens.erase(y);
 
