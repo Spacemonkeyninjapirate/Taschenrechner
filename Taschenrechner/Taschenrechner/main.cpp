@@ -44,6 +44,7 @@ void main()
         try
         {
             float ergebnis = taschenrechner(rest, 0);
+
             cout << ergebnis << endl;
         }
         catch (runtime_error &e)
