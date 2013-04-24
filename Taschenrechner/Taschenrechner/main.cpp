@@ -84,7 +84,7 @@ float taschenrechner(char *&rest, int level)
 
                 rest = &rest[index];
             }
-            else if (*rest == '+' || *rest == '-' || *rest == '/' || *rest == '*')
+            else if (*rest == '+' || *rest == '-' || *rest == '/' || *rest == '*' || *rest == '^')
             {
                 token *gefunden = new token;
 
@@ -185,18 +185,37 @@ float taschenrechner(char *&rest, int level)
 
         for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
-            if ((*i)->typ == OPERATOR && ((*i)->operation == 'v'))
+            if ((*i)->typ == OPERATOR)
             {
-                list<token*>::iterator x = i;
+                if((*i)->operation == 'v')
+                {
+                    list<token*>::iterator x = i;
 
-                ++x;
+                    ++x;
 
-                (*i)->wert = sqrtf((*x)->wert);
-                (*i)->typ = ZAHL;
+                    (*i)->wert = sqrtf((*x)->wert);
+                    (*i)->typ = ZAHL;
 
-                delete *x;
+                    delete *x;
 
-                tokens.erase(x);
+                    tokens.erase(x);
+                }
+                else if((*i)->operation == '^')
+                {
+                    list<token*>::iterator x = i, y = i;
+
+                    --x;
+                    ++y;
+
+                    (*i)->wert = pow((*x)->wert,(*y)->wert);
+                    (*i)->typ = ZAHL;
+
+                    delete *x;
+                    delete *y;
+
+                    tokens.erase(x);
+                    tokens.erase(y);
+                }
             }
         }
 
