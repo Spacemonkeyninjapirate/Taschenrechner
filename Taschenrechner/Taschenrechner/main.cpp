@@ -34,6 +34,11 @@ void main()
     {
         cin.getline(eingabe, EINGABEBUFFER);
 
+        if(cin.gcount() ==  1)
+        {
+            continue;
+        }
+
         if (strncmp(eingabe, "quit", 4) == 0 || strncmp(eingabe, "exit", 4) == 0)
         {
             break;
