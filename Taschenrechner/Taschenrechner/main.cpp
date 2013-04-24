@@ -181,7 +181,7 @@ float taschenrechner(char *&rest, int level)
             throw runtime_error("");
         }
 
-        float ergebnis;
+        float ergebnis = 0.0f;
         char merken = '=';
 
         for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
