@@ -3,6 +3,7 @@
 #include <list>
 #include <stdexcept>
 #include <string>
+#include <sstream>
 
 #define EINGABEBUFFER 100
 
@@ -81,11 +82,18 @@ float taschenrechner(char *&rest, int level)
                 }
                 else
                 {
-                    cout << "Syntaxfehler\t Fehler bei " << rest << endl;
+                    for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+                    {
+                        delete *i;
+                    }
+ 
+                     delete gefunden;
 
-                    delete gefunden;
+                    stringstream fehler;
 
-                    break;
+                    fehler << "Syntaxfehler bei " << rest;
+
+                    throw runtime_error(fehler.str());
                 }
 
                 rest = &rest[index];
@@ -103,11 +111,18 @@ float taschenrechner(char *&rest, int level)
                 }
                 else
                 {
-                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+                    for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+                    {
+                        delete *i;
+                    }
+ 
+                     delete gefunden;
 
-                    delete gefunden;
+                    stringstream fehler;
 
-                    break;
+                    fehler << "Syntaxfehler bei " << rest;
+
+                    throw runtime_error(fehler.str());
                 }
 
                 rest = &rest[1];
@@ -116,14 +131,17 @@ float taschenrechner(char *&rest, int level)
             {
                 if (level == 0)
                 {
-                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+                    stringstream fehler;
+ 
+                    fehler << "Syntaxfehler bei " << rest;
 
-            for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
-            {
-                delete *i;
-            }
+                    for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+                    {
+                        delete *i;
+                    }
+ 
 
-                    throw runtime_error("");
+                    throw runtime_error(fehler.str());
                 }
 
                 rest = &rest[1];
@@ -134,14 +152,17 @@ float taschenrechner(char *&rest, int level)
             {
                 if (tokens.size() != 0 && tokens.back()->typ == ZAHL)
                 {
-                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+                    stringstream fehler;
 
-            for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
-            {
-                delete *i;
-            }
+                    fehler << "Syntaxfehler bei " << rest;
 
-                    throw runtime_error("");
+                    for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+                    {
+                        delete *i;
+                    }
+ 
+
+                    throw runtime_error(fehler.str());
                 }
 
                 rest = &rest[1];
@@ -157,14 +178,16 @@ float taschenrechner(char *&rest, int level)
             {
                 if (tokens.size() != 0 && (tokens.back()->typ == ZAHL || tokens.back()->typ == OPERATOR && tokens.back()->operation == 'v'))
                 {
-                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+                    stringstream fehler;
+                    
+                    fehler << "Syntaxfehler bei " << rest;
 
-            for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
-            {
-                delete *i;
-            }
-
-                    throw runtime_error("");
+                    for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+                    {
+                        delete *i;
+                    }
+ 
+                    throw runtime_error(fehler.str());
                 }
 
                 rest = &rest[4];
@@ -184,25 +207,24 @@ float taschenrechner(char *&rest, int level)
 
         if (*rest == 0 && level != 0 && !(*(rest - 1) == ')' && level == 1))
         {
-            cerr << "Syntaxfehler\t Kein geschlossener Term" << endl;
+
             for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
             {
                 delete *i;
             }
 
-            throw runtime_error("");
+            throw runtime_error("Syntaxfehler: Kein geschlossener Term");
         }
 
         if (tokens.size() != 0 && ((tokens.front()->typ == OPERATOR && tokens.front()->operation != 'v') || tokens.back()->typ == OPERATOR))
         {
-            cerr << "Syntaxfehler:\n Term beginnt oder endet mit einem Operator"<< endl;
 
             for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
             {
                 delete *i;
             }
 
-            throw runtime_error("");
+            throw runtime_error("Syntaxfehler: Term beginnt oder endet mit einem Operator");
         }
 
         float ergebnis = 0.0f;
@@ -261,9 +283,13 @@ float taschenrechner(char *&rest, int level)
                 {
                     if ((*y)->wert == 0.0f)
                     {
-                        cout << "Division durch 0 nicht erlaubt" << endl;
+                        for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+                        {
+                            delete *i;
+                        }
+ 
 
-                        goto freigeben;
+                        throw runtime_error("Division durch 0 nicht erlaubt");
                     }
 
                     ergebnis = (*x)->wert / (*y)->wert;
@@ -305,7 +331,6 @@ float taschenrechner(char *&rest, int level)
             }
         }
 
-freigeben:
         for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
         {
             delete *i;
