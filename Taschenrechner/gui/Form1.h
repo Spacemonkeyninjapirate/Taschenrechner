@@ -1,4 +1,5 @@
 #pragma once
+#include <stdexcept>
 _declspec(dllimport) float _cdecl taschenrechner(char *&rest, int level);
 
 namespace gui {
@@ -131,8 +132,16 @@ namespace gui {
                  IntPtr ptr_eingabe = Marshal::StringToHGlobalAnsi(v_eingabe);
                  const char* c_eingabe = static_cast<const char*>(ptr_eingabe.ToPointer());
                  char *rest = const_cast<char*>(c_eingabe);
+                 try
+                 {
                  float ergebnis = taschenrechner(rest, 0);
                  ausgabe->Text = Convert::ToString(ergebnis);
+                 }
+                 catch (SEHException ^e)
+                 {
+                     ausgabe->Text = "Syntaxfehler";
+                 }
+                 
                  Marshal::FreeHGlobal(ptr_eingabe);
              }
 };
