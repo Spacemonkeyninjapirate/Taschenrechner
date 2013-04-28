@@ -116,7 +116,12 @@ float taschenrechner(char *&rest, int level)
             {
                 if (level == 0)
                 {
-                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;  
+                    cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+
+            for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+            {
+                delete *i;
+            }
 
                     throw runtime_error("");
                 }
@@ -130,6 +135,11 @@ float taschenrechner(char *&rest, int level)
                 if (tokens.size() != 0 && tokens.back()->typ == ZAHL)
                 {
                     cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+
+            for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+            {
+                delete *i;
+            }
 
                     throw runtime_error("");
                 }
@@ -148,6 +158,11 @@ float taschenrechner(char *&rest, int level)
                 if (tokens.size() != 0 && (tokens.back()->typ == ZAHL || tokens.back()->typ == OPERATOR && tokens.back()->operation == 'v'))
                 {
                     cerr << "Syntaxfehler\t Fehler bei " << rest << endl;
+
+            for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+            {
+                delete *i;
+            }
 
                     throw runtime_error("");
                 }
@@ -170,6 +185,10 @@ float taschenrechner(char *&rest, int level)
         if (*rest == 0 && level != 0 && !(*(rest - 1) == ')' && level == 1))
         {
             cerr << "Syntaxfehler\t Kein geschlossener Term" << endl;
+            for (list<token*>::iterator i = tokens.begin(); i != tokens.end(); ++i)
+            {
+                delete *i;
+            }
 
             throw runtime_error("");
         }
