@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Taschenrechner", "Taschenrechner\Taschenrechner.vcxproj", "{680A2951-6D03-4B79-B168-C43663DF1891}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui", "gui\gui.vcxproj", "{8BC58AE7-8FE8-4272-9E8D-CAE1FA827E3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{680A2951-6D03-4B79-B168-C43663DF1891}.Debug|Win32.Build.0 = Debug|Win32
 		{680A2951-6D03-4B79-B168-C43663DF1891}.Release|Win32.ActiveCfg = Release|Win32
 		{680A2951-6D03-4B79-B168-C43663DF1891}.Release|Win32.Build.0 = Release|Win32
+		{8BC58AE7-8FE8-4272-9E8D-CAE1FA827E3E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8BC58AE7-8FE8-4272-9E8D-CAE1FA827E3E}.Debug|Win32.Build.0 = Debug|Win32
+		{8BC58AE7-8FE8-4272-9E8D-CAE1FA827E3E}.Release|Win32.ActiveCfg = Release|Win32
+		{8BC58AE7-8FE8-4272-9E8D-CAE1FA827E3E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
