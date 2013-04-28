@@ -137,9 +137,9 @@ namespace gui {
                  float ergebnis = taschenrechner(rest, 0);
                  ausgabe->Text = Convert::ToString(ergebnis);
                  }
-                 catch (SEHException ^e)
+                 catch (std::runtime_error &e)
                  {
-                     ausgabe->Text = "Syntaxfehler";
+                     ausgabe->Text = gcnew String(e.what());
                  }
                  
                  Marshal::FreeHGlobal(ptr_eingabe);

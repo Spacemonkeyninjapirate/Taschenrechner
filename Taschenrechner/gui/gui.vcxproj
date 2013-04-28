@@ -52,7 +52,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ExceptionHandling>Async</ExceptionHandling>
-      <CompileAsManaged>Pure</CompileAsManaged>
+      <CompileAsManaged>true</CompileAsManaged>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
