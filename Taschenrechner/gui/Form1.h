@@ -8,6 +8,7 @@ namespace gui {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+    using namespace System::Runtime::InteropServices;
 
 	/// <summary>
 	/// Zusammenfassung für Form1
@@ -125,6 +126,12 @@ namespace gui {
         }
 #pragma endregion
     private: System::Void button_Click(System::Object^  sender, System::EventArgs^  e) {
+                 String ^v_eingabe = eingabe->Text; 
+                 IntPtr ptr_eingabe = Marshal::StringToHGlobalAnsi(v_eingabe);
+                 const char* c_eingabe = static_cast<const char*>(ptr_eingabe.ToPointer());
+                 float ergebnis = 10.123f;
+                 ausgabe->Text = Convert::ToString(ergebnis);
+                 Marshal::FreeHGlobal(ptr_eingabe);
              }
 };
 }
