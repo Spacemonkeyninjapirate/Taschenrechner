@@ -1,4 +1,5 @@
 #pragma once
+_declspec(dllimport) float _cdecl taschenrechner(char *&rest, int level);
 
 namespace gui {
 
@@ -129,7 +130,8 @@ namespace gui {
                  String ^v_eingabe = eingabe->Text; 
                  IntPtr ptr_eingabe = Marshal::StringToHGlobalAnsi(v_eingabe);
                  const char* c_eingabe = static_cast<const char*>(ptr_eingabe.ToPointer());
-                 float ergebnis = 10.123f;
+                 char *rest = const_cast<char*>(c_eingabe);
+                 float ergebnis = taschenrechner(rest, 0);
                  ausgabe->Text = Convert::ToString(ergebnis);
                  Marshal::FreeHGlobal(ptr_eingabe);
              }

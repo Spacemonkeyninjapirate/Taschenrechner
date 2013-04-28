@@ -24,7 +24,7 @@ struct token
     };
 };
 
-float taschenrechner(char *&rest, int level);
+_declspec(dllexport) float taschenrechner(char *&rest, int level);
 
 void main()
 {
